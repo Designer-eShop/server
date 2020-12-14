@@ -190,4 +190,27 @@ app.post("/updateuser", middleware.isLoggedIn, (req, res) => {
   }
 });
 
+app.post("/cart", middleware.isLoggedIn, (req, res) => {
+  const date = new Date().toISOString().slice(0, 10);
+  if (req.body.product_id) {
+    database((db) =>
+      db.query(
+        `INSERT INTO cart (user_id, date_created, product_id) VALUES ('${
+          req.userData.userId
+        }', '${date}', ${mysql.escape(req.body.product_id)})`,
+        (err) => {
+          if (err) {
+            console.log(err);
+            return res.status(400).json({ msg: "Internal server error" });
+          } else {
+            return res.status(200).json({ msg: "Cart has been created" });
+          }
+        }
+      )
+    );
+  } else {
+    return res.status(400).json({ msg: "Some information might be incorrect" });
+  }
+});
+
 app.listen(port, () => console.log(`Server is running on port ${port}`));
