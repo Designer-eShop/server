@@ -128,40 +128,40 @@ app.get("/clothes/:id", (req, res) => {
   );
 });
 
-app.post("/clothes", middleware.isLoggedIn, (req, res) => {
-  if (
-    req.body.title &&
-    req.body.description &&
-    req.body.price &&
-    req.body.image &&
-    req.body.size &&
-    req.body.gender
-  ) {
-    database((db) =>
-      db.query(
-        `INSERT INTO clothes (title, description, price, image, size, gender) VALUES (${mysql.escape(
-          req.body.title
-        )}, ${mysql.escape(req.body.description)}, ${mysql.escape(
-          req.body.price
-        )}, ${mysql.escape(req.body.image)}, ${mysql.escape(
-          req.body.size
-        )}, ${mysql.escape(req.body.gender)})`,
-        (err) => {
-          if (err) {
-            console.log(err);
-            return res.status(400).json({ msg: "Internal server error" });
-          } else {
-            return res
-              .status(200)
-              .json({ msg: "Product has been added successfully" });
-          }
-        }
-      )
-    );
-  } else {
-    return res.status(400).json({ msg: "Information entered incorrectly" });
-  }
-});
+// app.post("/clothes", middleware.isLoggedIn, (req, res) => {
+//   if (
+//     req.body.title &&
+//     req.body.description &&
+//     req.body.price &&
+//     req.body.image &&
+//     req.body.size &&
+//     req.body.gender
+//   ) {
+//     database((db) =>
+//       db.query(
+//         `INSERT INTO clothes (title, description, price, image, size, gender) VALUES (${mysql.escape(
+//           req.body.title
+//         )}, ${mysql.escape(req.body.description)}, ${mysql.escape(
+//           req.body.price
+//         )}, ${mysql.escape(req.body.image)}, ${mysql.escape(
+//           req.body.size
+//         )}, ${mysql.escape(req.body.gender)})`,
+//         (err) => {
+//           if (err) {
+//             console.log(err);
+//             return res.status(400).json({ msg: "Internal server error" });
+//           } else {
+//             return res
+//               .status(200)
+//               .json({ msg: "Product has been added successfully" });
+//           }
+//         }
+//       )
+//     );
+//   } else {
+//     return res.status(400).json({ msg: "Information entered incorrectly" });
+//   }
+// });
 
 app.post("/updateuser", middleware.isLoggedIn, (req, res) => {
   const data = req.body;
