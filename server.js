@@ -99,6 +99,19 @@ app.post("/register", middleware.validateRegistration, (req, res) => {
   );
 });
 
+app.get("/clothes", (req, res) => {
+  database((db) =>
+    db.query(`SELECT * FROM clothes`, (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({ msg: "Internal server error" });
+      } else {
+        return res.status(200).json(result);
+      }
+    })
+  );
+});
+
 app.get("/clothes/:id", (req, res) => {
   database((db) =>
     db.query(
